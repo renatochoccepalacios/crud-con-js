@@ -14,7 +14,6 @@ document.addEventListener('DOMContentLoaded', async () => {
     const datos = await fetchData();
     const tableBody = document.getElementById('table-body');
 
-
     const renderizarDatos = (datos = {}) => {
         datos.employees.forEach(employee => {
             const tr = document.createElement('tr');
@@ -39,7 +38,7 @@ document.addEventListener('DOMContentLoaded', async () => {
             tdButtons.classList = 'px-4 py-2 text-center'
             tdButtons.innerHTML = `
             
-                <button class="btn btn-circle btn-text btn-sm" aria-label="Edit">
+                <button class="btn btn-circle btn-text btn-sm" aria-label="Edit" id="button-editar">
                     <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16.92V21h4.08l11.36-11.36-4.08-4.08L4 16.92z" />
                     </svg>
@@ -60,7 +59,39 @@ document.addEventListener('DOMContentLoaded', async () => {
             tr.appendChild(tdStatus);
             tr.appendChild(tdDate);
             tr.appendChild(tdButtons);
+            
+            const buttonEditar = tr.querySelector('#button-editar');
 
+            buttonEditar.addEventListener("click", () => {
+                window.location.href = `pages/editar.html?id=${employee.id}`;
+                const main = document.getElementById('main-editar')
+                const editarFormulario = document.createElement('form');
+
+                const inputName = document.createElement('input');
+                inputName.placeholder = 'Name';
+                inputName.type = 'text';
+
+                const inputEmail = document.createElement('input');
+                inputEmail.placeholder = 'Email';
+                inputEmail.type = 'email';
+
+                const inputStatus = document.createElement('input');
+                inputStatus.placeholder = 'Status';
+                inputStatus.type = 'text'
+
+                const inputDate = document.createElement('input');
+                inputDate.type = 'date';
+
+                const buttonGuardar = document.createElement('button');
+                buttonGuardar.textContent = 'Guardar';
+                buttonGuardar.type = 'submit';
+
+                editarFormulario.appendChild(inputStatus);
+                editarFormulario.appendChild(inputName);
+                editarFormulario.appendChild(inputEmail);
+                main.appendChild(editarFormulario);
+
+            });
             tableBody.appendChild(tr);
         });
     }
